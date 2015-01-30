@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.dcms.cms.entity.assist">
+	<class name="CmsRegion" table="JC_REGION">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write"/>
+		<id name="id" type="java.lang.Integer" column="REGION_ID"><generator class="identity"/></id>
+		<property name="name" column="NAME" type="string" not-null="true" length="50"/>
+		<property name="detailName" column="DETAIL_NAME" type="string" not-null="false" length="200"/>
+		<property name="code" column="CODE" type="string" not-null="false" length="20"/>
+		<property name="parentCode" column="PARENT_CODE" type="string" not-null="false" length="20"/>
+		<property name="level" column="MUNICIPAL_LEVEL" type="java.lang.Integer" not-null="true" length="2"/>
+		
+		<many-to-one name="parent" class="CmsRegion"  column="PARENT_ID" cascade="none" not-null="false"></many-to-one>
+		<set name="child" inverse="true" cascade="none"  order-by="REGION_ID">
+			<key column="PARENT_ID"/>
+			<one-to-many class="CmsRegion"/>
+		</set>
+
+	</class>	
+</hibernate-mapping>

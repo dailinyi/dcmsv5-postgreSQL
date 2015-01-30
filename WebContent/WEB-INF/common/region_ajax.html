@@ -1,0 +1,36 @@
+<script type="text/javascript">
+$(function() {
+	$(".ajaxRegion").change(function(){
+		var id = $(this).val();
+		var cid = $(this).attr("cid");
+		
+		$("#"+cid).attr("disabled",false);
+		$("#"+cid).trigger("click");
+		
+		if(id==null||id==''){
+			
+			$("#"+cid).html('<option value=""><@s.m "cmsManage.select.lastRegion"/></option>').trigger('change');
+			return;
+		}
+		
+		$("#"+cid).html('<option value=""><@s.m "cmsManage.select.region"/></option>');
+		$.get("${base}${appBase}/region/v_child.do",{"id":id},function(s) {
+			if(s){
+				$("#"+cid).show();
+				$(s).appendTo("#"+cid);
+			}else{
+				$("#"+cid).hide();
+			}
+		});
+	});
+	$(".editRegion").click(function(){
+		var eid = $(this).attr("eid");
+		if($("#"+eid).attr("disabled")==true){
+			$("#"+eid).attr("disabled",false);
+			$("#"+eid).empty();
+			$.get("../region/v_child.do",{"id":0},function(s) {$(s).appendTo("#"+eid);});
+			$("#"+eid).prepend('<option value="" selected="selected"><@s.m "cmsManage.select.region"/></option>');
+		}
+	});
+});
+</script>
