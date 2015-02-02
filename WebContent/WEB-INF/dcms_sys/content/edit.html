@@ -319,7 +319,7 @@ function uploadAttachSuccess(file,data) {
 
 <#elseif item.field=="topLevel">
 <@p.td help=item.help helpPosition="${item.helpPosition!2}" label=item.label colspan=item.single?string("2","1") width="${item.single?string(100,50)}">
-<@p.select value=content.topLevel list={"0":"content.topLevel.0","1":"content.topLevel.1","2":"content.topLevel.2","3":"content.topLevel.3","4":"content.topLevel.4","5":"content.topLevel.5","6":"content.topLevel.6"} name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+<@p.select value=content.topLevel list={"0":"content.topLevel.0","1":"content.topLevel.1","2":"content.topLevel.2","3":"content.topLevel.3","4":"content.topLevel.4","5":"content.topLevel.5","6":"content.topLevel.6","7":"content.topLevel.7","8":"content.topLevel.8","9":"content.topLevel.9","10":"content.topLevel.10","11":"content.topLevel.11","12":"content.topLevel.12","13":"content.topLevel.13","14":"content.topLevel.14","15":"content.topLevel.15","16":"content.topLevel.16"} name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
 &nbsp;<@s.m "content.sortDate"/>: <@p.text name="sortDate" value=content.sortDate style="width:140px" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate"/>
 </@p.td>
 
