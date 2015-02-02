@@ -46,6 +46,11 @@ public abstract class DirectiveUtils {
 	 * 参数：次级模板名称
 	 */
 	public static final String PARAM_TPL_SUB = "tplSub";
+	
+	/**
+	 * 参数：扩展名称
+	 */
+	public static final String PARAM_ATTR = "attr";
 
 	/**
 	 * 将params的值复制到variable中
@@ -237,6 +242,39 @@ public abstract class DirectiveUtils {
 		} else {
 			throw new MustDateException(name);
 		}
+	}
+	
+	public static Map<String,String> getAttr(Map<String, TemplateModel> params)
+	throws TemplateException{
+		TemplateModel model = params.get(PARAM_ATTR);
+		if (model instanceof TemplateScalarModel) {
+			String s = ((TemplateScalarModel) model).getAsString();
+			if (!StringUtils.isBlank(s)) {
+				return formatAttrToMap(s);
+			} else {
+				return null;
+			}
+		} else {
+			throw new MustStringException(PARAM_ATTR);
+		}
+		
+		
+	}
+
+	private static Map<String, String> formatAttrToMap(String s) 
+	throws TemplateException{
+		Map<String , String> attrMap = new HashMap<String, String>();
+		String[] sArray = s.split(":");
+		
+		for(String element : sArray){
+			String[] entry = element.split("\\(");
+			if(entry.length != 2){
+				throw new StringFormatException(PARAM_ATTR);
+			}
+			attrMap.put(entry[0], entry[1].substring(0, entry[1].indexOf(")")));
+		}
+		
+		return attrMap;
 	}
 
 	/**

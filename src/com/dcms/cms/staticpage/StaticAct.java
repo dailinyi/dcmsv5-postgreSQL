@@ -159,7 +159,7 @@ public class StaticAct {
 				msg = "{'success':false,'msg':'" + "channel is not find "+ "'}";
 			}
 			Integer[]cIds=new Integer[]{channelId};
-			List<Content>contents=contentMng.getListByChannelIdsForTag(cIds, null, null, null, null, 1, 1, 0, Integer.MAX_VALUE);
+			List<Content> contents = contentMng.getListByChannelIdsForTag(cIds, null, null, null, null, 1, 1,null, 0, Integer.MAX_VALUE);
 			for(Content content:contents){
 				content.getContentExt().setNeedRegenerate(true);
 				contentMng.update(content);

@@ -34,6 +34,9 @@ public abstract class BaseContentExt  implements Serializable {
 	public static String PROP_CONTENT = "content";
 	public static String PROP_RELEASE_DATE = "releaseDate";
 	public static String PROP_TPL_CONTENT = "tplContent";
+	public static String PROP_COUNTRY_ID = "countryId";
+	public static String PROP_CITY_ID = "cityId";
+	public static String PROP_PUBLIC_CODE = "publicCode";
 
 
 	// constructors
@@ -94,6 +97,9 @@ public abstract class BaseContentExt  implements Serializable {
 	private java.lang.String link;
 	private java.lang.String tplContent;
 	private java.lang.Boolean needRegenerate;
+	private java.lang.Integer countryId;
+	private java.lang.Integer cityId;
+	private java.lang.String publicCode;
 
 	// one to one
 	private com.dcms.cms.entity.main.Content content;
@@ -408,8 +414,31 @@ public abstract class BaseContentExt  implements Serializable {
 	public void setContent (com.dcms.cms.entity.main.Content content) {
 		this.content = content;
 	}
+	
 
+	public java.lang.Integer getCountryId() {
+		return countryId;
+	}
 
+	public void setCountryId(java.lang.Integer countryId) {
+		this.countryId = countryId;
+	}
+
+	public java.lang.Integer getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(java.lang.Integer cityId) {
+		this.cityId = cityId;
+	}
+
+	public java.lang.String getPublicCode() {
+		return publicCode;
+	}
+
+	public void setPublicCode(java.lang.String publicCode) {
+		this.publicCode = publicCode;
+	}
 
 	public boolean equals (Object obj) {
 		if (null == obj) return false;

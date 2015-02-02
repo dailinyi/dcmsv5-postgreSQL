@@ -299,6 +299,19 @@ function uploadAttachSuccess(file,data) {
 <#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
 <@p.text value=content.tagStr maxlength="50" size="${item.size!35}" help="${h}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
 
+<#elseif item.field=="countryId">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.text value=content.countryId class="digits"  maxlength="50" size="${item.size!15}" help="${h}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+
+<#elseif item.field=="cityId">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.text value=content.cityId  class="digits" maxlength="50" size="${item.size!15}" help="${h}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+
+<#elseif item.field=="publicCode">
+<#assign h><#if item.help??>${item.help}<#else><@s.m "content."+item.field+".help"/></#if></#assign>
+<@p.text value=content.publicCode  maxlength="100" size="${item.size!15}" help="${h}" helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
+
+
 <#elseif item.field=="description">
 <@p.textarea value=content.description cols="${item.cols!70}" rows="${item.rows!3}" maxlength="255" help=item.help helpPosition="${item.helpPosition!2}" label=item.label name=item.field colspan=item.single?string("2","1") width="${item.single?string(100,50)}"/>
 

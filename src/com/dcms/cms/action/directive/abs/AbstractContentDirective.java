@@ -281,6 +281,11 @@ public abstract class AbstractContentDirective implements
 			return orderBy;
 		}
 	}
+	
+	protected Map<String,String> getAttr(Map<String, TemplateModel> params) 
+			throws TemplateException{
+		return DirectiveUtils.getAttr(params);
+	}
 
 	protected Object getData(Map<String, TemplateModel> params, Environment env)
 			throws TemplateException {
@@ -290,6 +295,7 @@ public abstract class AbstractContentDirective implements
 		Integer[] typeIds = getTypeIds(params);
 		Integer[] siteIds = getSiteIds(params);
 		String title = getTitle(params);
+		Map<String,String> attr = getAttr(params);
 		int count = FrontUtils.getCount(params);
 
 		Integer[] tagIds = getTagIds(params);
@@ -329,12 +335,12 @@ public abstract class AbstractContentDirective implements
 			if (isPage()) {
 				int pageNo = FrontUtils.getPageNo(env);
 				return contentMng.getPageByChannelIdsForTag(channelIds,
-						typeIds, titleImg, recommend, title, orderBy, option,
+						typeIds, titleImg, recommend, title, orderBy, option,attr,
 						pageNo, count);
 			} else {
 				int first = FrontUtils.getFirst(params);
 				return contentMng.getListByChannelIdsForTag(channelIds,
-						typeIds, titleImg, recommend, title, orderBy, option,
+						typeIds, titleImg, recommend, title, orderBy, option,attr,
 						first, count);
 			}
 		}
@@ -361,12 +367,12 @@ public abstract class AbstractContentDirective implements
 						int pageNo = FrontUtils.getPageNo(env);
 						return contentMng.getPageByChannelIdsForTag(channelIds,
 								typeIds, titleImg, recommend, title, orderBy,
-								option, pageNo, count);
+								option, attr, pageNo, count);
 					} else {
 						int first = FrontUtils.getFirst(params);
 						return contentMng.getListByChannelIdsForTag(channelIds,
 								typeIds, titleImg, recommend, title, orderBy,
-								option, first, count);
+								option, attr, first, count);
 					}
 				} else {
 					// 如果将栏目path转换为ID后为空，则按path不存在处理，转到最后执行。

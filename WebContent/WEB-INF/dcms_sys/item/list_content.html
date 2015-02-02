@@ -144,6 +144,72 @@ function disInput(o) {
 </tr>
 <#assign i=i+1/>
 </#if>
+<#if !fieldList?seq_contains('countryId')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center" class="dis">countryId</td>
+	<td align="center" class="dis"><@s.m "cmsModelItem.type2"/></td>
+	<td align="center"><input class="dis" type="text" name="labels" value="<@s.m "content.countryId"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="prioritys" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#displays${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="displays${i}" name="displays" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="countryId"/>
+		<input class="dis" type="hidden" name="dataTypes" value="2"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('cityId')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center" class="dis">cityId</td>
+	<td align="center" class="dis"><@s.m "cmsModelItem.type2"/></td>
+	<td align="center"><input class="dis" type="text" name="labels" value="<@s.m "content.cityId"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="prioritys" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#displays${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="displays${i}" name="displays" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="cityId"/>
+		<input class="dis" type="hidden" name="dataTypes" value="2"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
+<#if !fieldList?seq_contains('publicCode')>
+<tr>
+	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>
+	<td align="center" class="dis">publicCode</td>
+	<td align="center" class="dis"><@s.m "cmsModelItem.type1"/></td>
+	<td align="center"><input class="dis" type="text" name="labels" value="<@s.m "content.publicCode"/>" style="width:100px"/></td>
+	<td align="center"><input class="dis" type="text" name="prioritys" value="10" style="width:40px"/></td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#singles${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="singles${i}" name="singles" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="checkbox" checked="checked" onclick="$('#displays${i}').val(this.checked)"/>
+		<input class="dis" type="hidden" id="displays${i}" name="displays" value="true"/>
+	</td>
+	<td align="center">
+		<input class="dis" type="hidden" name="fields" value="publicCode"/>
+		<input class="dis" type="hidden" name="dataTypes" value="1"/>
+	</td>
+</tr>
+<#assign i=i+1/>
+</#if>
 <#if !fieldList?seq_contains('shortTitle')>
 <tr>
 	<td><input type="checkbox" onclick="disInput(this);" checked="checked"/></td>

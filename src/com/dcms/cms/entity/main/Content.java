@@ -531,6 +531,33 @@ public class Content extends BaseContent implements ContentInterface {
 			return null;
 		}
 	}
+	
+	public Integer getCountryId() {
+		ContentExt ext = getContentExt();
+		if (ext != null) {
+			return ext.getCountryId();
+		} else {
+			return null;
+		}
+	}
+	
+	public Integer getCityId() {
+		ContentExt ext = getContentExt();
+		if (ext != null) {
+			return ext.getCityId();
+		} else {
+			return null;
+		}
+	}
+	
+	public String getPublicCode() {
+		ContentExt ext = getContentExt();
+		if (ext != null) {
+			return ext.getPublicCode();
+		} else {
+			return null;
+		}
+	}
 
 	public String getShortTitle() {
 		ContentExt ext = getContentExt();

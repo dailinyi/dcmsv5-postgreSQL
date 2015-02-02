@@ -141,17 +141,17 @@ public class ContentMngImpl implements ContentMng, ChannelDeleteChecker {
 	@Transactional(readOnly = true)
 	public Pagination getPageByChannelIdsForTag(Integer[] channelIds,
 			Integer[] typeIds, Boolean titleImg, Boolean recommend,
-			String title, int orderBy, int option, int pageNo, int pageSize) {
+			String title, int orderBy, int option, Map<String,String> attr, int pageNo, int pageSize) {
 		return dao.getPageByChannelIdsForTag(channelIds, typeIds, titleImg,
-				recommend, title, orderBy, option, pageNo, pageSize);
+				recommend, title, orderBy, option, attr, pageNo, pageSize);
 	}
 
 	@Transactional(readOnly = true)
 	public List<Content> getListByChannelIdsForTag(Integer[] channelIds,
 			Integer[] typeIds, Boolean titleImg, Boolean recommend,
-			String title, int orderBy, int option, Integer first, Integer count) {
+			String title, int orderBy, int option, Map<String,String> attr, Integer first, Integer count) {
 		return dao.getListByChannelIdsForTag(channelIds, typeIds, titleImg,
-				recommend, title, orderBy, option, first, count);
+				recommend, title, orderBy, option, attr, first, count);
 	}
 
 	@Transactional(readOnly = true)

@@ -10,6 +10,7 @@ import static com.dcms.cms.entity.main.Content.ContentStatus.rejected;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
@@ -17,8 +18,9 @@ import org.springframework.stereotype.Repository;
 
 import com.dcms.cms.dao.main.ContentDao;
 import com.dcms.cms.entity.main.Content;
-import com.dcms.cms.entity.main.ContentCheck;
 import com.dcms.cms.entity.main.Content.ContentStatus;
+import com.dcms.cms.entity.main.ContentCheck;
+import com.dcms.cms.entity.main.ContentExt;
 import com.dcms.common.hibernate3.Finder;
 import com.dcms.common.hibernate3.HibernateBaseDao;
 import com.dcms.common.page.Pagination;
@@ -285,9 +287,9 @@ public class ContentDaoImpl extends HibernateBaseDao<Content, Integer>
 
 	public Pagination getPageByChannelIdsForTag(Integer[] channelIds,
 			Integer[] typeIds, Boolean titleImg, Boolean recommend,
-			String title, int orderBy, int option, int pageNo, int pageSize) {
+			String title, int orderBy, int option,Map<String,String> attr, int pageNo, int pageSize) {
 		Finder f = byChannelIds(channelIds, typeIds, titleImg, recommend,
-				title, orderBy, option);
+				title, orderBy, option, attr);
 		f.setCacheable(true);
 		return find(f, pageNo, pageSize);
 	}
@@ -295,9 +297,9 @@ public class ContentDaoImpl extends HibernateBaseDao<Content, Integer>
 	@SuppressWarnings("unchecked")
 	public List<Content> getListByChannelIdsForTag(Integer[] channelIds,
 			Integer[] typeIds, Boolean titleImg, Boolean recommend,
-			String title, int orderBy, int option, Integer first, Integer count) {
+			String title, int orderBy, int option, Map<String,String> attr, Integer first, Integer count) {
 		Finder f = byChannelIds(channelIds, typeIds, titleImg, recommend,
-				title, orderBy, option);
+				title, orderBy, option, attr);
 		if (first != null) {
 			f.setFirstResult(first);
 		}
@@ -415,7 +417,7 @@ public class ContentDaoImpl extends HibernateBaseDao<Content, Integer>
 
 	private Finder byChannelIds(Integer[] channelIds, Integer[] typeIds,
 			Boolean titleImg, Boolean recommend, String title, int orderBy,
-			int option) {
+			int option,Map<String,String> attr) {
 		Finder f = Finder.create();
 		int len = channelIds.length;
 		// 如果多个栏目
@@ -455,6 +457,17 @@ public class ContentDaoImpl extends HibernateBaseDao<Content, Integer>
 		if (recommend != null) {
 			f.append(" and bean.recommend=:recommend");
 			f.setParam("recommend", recommend);
+		}
+		if (attr != null && !attr.isEmpty()){
+			for(Map.Entry<String, String> entry : attr.entrySet()){
+//				f.append(" and bean.attr."+entry.getKey()+" in (:attrs)");
+//				f.setParam("attrs", entry.getValue());
+				if (ContentExt.PROP_CITY_ID.equals(entry.getKey())
+						||ContentExt.PROP_COUNTRY_ID.equals(entry.getKey())
+						||ContentExt.PROP_PUBLIC_CODE.equals(entry.getKey())){
+					f.append(" and ext."+entry.getKey()+" in ("+entry.getValue()+")");
+				}
+			}
 		}
 		appendReleaseDate(f);
 		appendTypeIds(f, typeIds);

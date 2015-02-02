@@ -24,6 +24,9 @@
 		<property name="link" column="link" type="string" not-null="false" length="255"/>
 		<property name="tplContent" column="tpl_content" type="string" not-null="false" length="100"/>
 		<property name="needRegenerate" column="need_regenerate" type="java.lang.Boolean" not-null="true"/>
+		<property name="countryId" column="country_id" type="java.lang.Integer" length="32"/>
+		<property name="cityId" column="city_id" type="java.lang.Integer" length="32"/>
+		<property name="publicCode" column="public_code" type="string" length="100"/>
 		<one-to-one name="content" class="Content" constrained="true"/>
 	</class>
 </hibernate-mapping>
