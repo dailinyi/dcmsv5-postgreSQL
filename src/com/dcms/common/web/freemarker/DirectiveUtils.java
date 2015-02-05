@@ -251,12 +251,9 @@ public abstract class DirectiveUtils {
 			String s = ((TemplateScalarModel) model).getAsString();
 			if (!StringUtils.isBlank(s)) {
 				return formatAttrToMap(s);
-			} else {
-				return null;
 			}
-		} else {
-			throw new MustStringException(PARAM_ATTR);
 		}
+		return null;
 		
 		
 	}

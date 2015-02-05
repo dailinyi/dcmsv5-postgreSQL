@@ -75,6 +75,9 @@ public class ContentExt extends BaseContentExt {
 		if (StringUtils.isBlank(getMediaType())) {
 			setMediaType(null);
 		}
+		if (StringUtils.isBlank(getPublicCode())) {
+			setPublicCode(null);
+		}
 	}
 
 	/* [CONSTRUCTOR MARKER BEGIN] */

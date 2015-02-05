@@ -534,7 +534,7 @@ public class Content extends BaseContent implements ContentInterface {
 	
 	public Integer getCountryId() {
 		ContentExt ext = getContentExt();
-		if (ext != null) {
+		if (ext != null && ext.getCountryId() != 0) {
 			return ext.getCountryId();
 		} else {
 			return null;
@@ -543,7 +543,7 @@ public class Content extends BaseContent implements ContentInterface {
 	
 	public Integer getCityId() {
 		ContentExt ext = getContentExt();
-		if (ext != null) {
+		if (ext != null && ext.getCityId() != 0) {
 			return ext.getCityId();
 		} else {
 			return null;

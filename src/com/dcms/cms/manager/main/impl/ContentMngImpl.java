@@ -361,6 +361,17 @@ public class ContentMngImpl implements ContentMng, ChannelDeleteChecker {
 		if (typeId != null) {
 			bean.setType(contentTypeMng.findById(typeId));
 		}
+		
+		// 更新城市ID和地区ID
+		if (ext.getCityId() == null) {
+			ext.setCityId(0);
+		}
+		if(ext.getCountryId() == null){
+			ext.setCountryId(0);
+		}
+		if(StringUtils.isBlank(ext.getPublicCode())){
+			ext.setPublicCode("");
+		}
 		// 更新扩展表
 		contentExtMng.update(ext);
 		// 更新文本表
