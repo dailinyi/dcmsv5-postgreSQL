@@ -52,6 +52,10 @@
 			<list-index column="priority"/>
 			<composite-element class="ContentPicture">
 				<property name="imgPath" column="img_path" type="string" length="100" not-null="true"/>
+				<property name="title" column="title" type="string" length="100"/>
+				<property name="subtitle" column="subtitle" type="string" length="100"/>
+				<property name="recommend" column="recommend" type="java.lang.Integer" length="32"/>
+				<property name="link" column="link" type="string" length="255"/>
 				<property name="description" column="description" type="string" length="255" not-null="false"/>
 			</composite-element>
 		</list>

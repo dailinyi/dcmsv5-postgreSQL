@@ -109,12 +109,31 @@ public interface ContentMng {
 			String[] picPaths, String[] picDescs, Integer channelId, 
 			Integer typeId, Boolean draft, CmsUser user, boolean forMember);
 	
+	public Content save(Content bean, ContentExt ext, ContentTxt txt,
+			Integer[] channelIds, Integer[] topicIds, Integer[] viewGroupIds,
+			String[] tagArr, String[] attachmentPaths,
+			String[] attachmentNames, String[] attachmentFilenames,
+			String[] picPaths, String[] picDescs,
+			String[] picTitles ,String[] picSubtitles ,String[] picLinkes,Integer[] picRecommendes,
+			Integer channelId, 
+			Integer typeId, Boolean draft, CmsUser user, boolean forMember);
+	
 
 	public Content update(Content bean, ContentExt ext, ContentTxt txt,
 			String[] tagArr, Integer[] channelIds, Integer[] topicIds,
 			Integer[] viewGroupIds, String[] attachmentPaths,
 			String[] attachmentNames, String[] attachmentFilenames,
 			String[] picPaths, String[] picDescs, Map<String, String> attr,
+			Integer channelId, Integer typeId, Boolean draft, CmsUser user,
+			boolean forMember);
+	
+	public Content update(Content bean, ContentExt ext, ContentTxt txt,
+			String[] tagArr, Integer[] channelIds, Integer[] topicIds,
+			Integer[] viewGroupIds, String[] attachmentPaths,
+			String[] attachmentNames, String[] attachmentFilenames,
+			String[] picPaths, String[] picDescs, 
+			String[] picTitles ,String[] picSubtitles ,String[] picLinkes,Integer[] picRecommendes,
+			Map<String, String> attr,
 			Integer channelId, Integer typeId, Boolean draft, CmsUser user,
 			boolean forMember);
 

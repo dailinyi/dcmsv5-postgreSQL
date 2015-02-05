@@ -281,6 +281,22 @@ public class Content extends BaseContent implements ContentInterface {
 		cp.setDescription(desc);
 		list.add(cp);
 	}
+	
+	public void addToPictures(String path, String desc , String picTitle, String picSubtitle,String picLink,Integer picRecommend) {
+		List<ContentPicture> list = getPictures();
+		if (list == null) {
+			list = new ArrayList<ContentPicture>();
+			setPictures(list);
+		}
+		ContentPicture cp = new ContentPicture();
+		cp.setImgPath(path);
+		cp.setDescription(desc);
+		cp.setLink(picLink);
+		cp.setTitle(picTitle);
+		cp.setSubtitle(picSubtitle);
+		cp.setRecommend(picRecommend);
+		list.add(cp);
+	}
 
 	public String getTagStr() {
 		List<ContentTag> tags = getTags();
@@ -534,7 +550,7 @@ public class Content extends BaseContent implements ContentInterface {
 	
 	public Integer getCountryId() {
 		ContentExt ext = getContentExt();
-		if (ext != null && ext.getCountryId() != 0) {
+		if (ext != null && ext.getCountryId() != null && ext.getCountryId() != 0) {
 			return ext.getCountryId();
 		} else {
 			return null;
@@ -543,7 +559,7 @@ public class Content extends BaseContent implements ContentInterface {
 	
 	public Integer getCityId() {
 		ContentExt ext = getContentExt();
-		if (ext != null && ext.getCityId() != 0) {
+		if (ext != null && ext.getCityId()!= null && ext.getCityId() != 0) {
 			return ext.getCityId();
 		} else {
 			return null;

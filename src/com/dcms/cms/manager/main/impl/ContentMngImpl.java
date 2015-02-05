@@ -266,6 +266,59 @@ public class ContentMngImpl implements ContentMng, ChannelDeleteChecker {
 		afterSave(bean);
 		return bean;
 	}
+	public Content save(Content bean, ContentExt ext, ContentTxt txt,
+			Integer[] channelIds, Integer[] topicIds, Integer[] viewGroupIds,
+			String[] tagArr, String[] attachmentPaths,
+			String[] attachmentNames, String[] attachmentFilenames,
+			String[] picPaths, String[] picDescs,
+			String[] picTitles ,String[] picSubtitles ,String[] picLinkes,Integer[] picRecommendes,
+			Integer channelId, 
+			Integer typeId, Boolean draft, CmsUser user, boolean forMember) {
+		saveContent(bean, ext, txt, channelId,typeId, draft, user, forMember);
+		// 保存副栏目
+		if (channelIds != null && channelIds.length > 0) {
+			for (Integer cid : channelIds) {
+				bean.addToChannels(channelMng.findById(cid));
+			}
+		}
+		// 主栏目也作为副栏目一并保存，方便查询，提高效率。
+		bean.addToChannels(channelMng.findById(channelId));
+		// 保存专题
+		if (topicIds != null && topicIds.length > 0) {
+			for (Integer tid : topicIds) {
+				bean.addToTopics(cmsTopicMng.findById(tid));
+			}
+		}
+		// 保存浏览会员组
+		if (viewGroupIds != null && viewGroupIds.length > 0) {
+			for (Integer gid : viewGroupIds) {
+				bean.addToGroups(cmsGroupMng.findById(gid));
+			}
+		}
+		// 保存标签
+		List<ContentTag> tags = contentTagMng.saveTags(tagArr);
+		bean.setTags(tags);
+		// 保存附件
+		if (attachmentPaths != null && attachmentPaths.length > 0) {
+			for (int i = 0, len = attachmentPaths.length; i < len; i++) {
+				if (!StringUtils.isBlank(attachmentPaths[i])) {
+					bean.addToAttachmemts(attachmentPaths[i],
+							attachmentNames[i], attachmentFilenames[i]);
+				}
+			}
+		}
+		// 保存图片集
+		if (picPaths != null && picPaths.length > 0) {
+			for (int i = 0, len = picPaths.length; i < len; i++) {
+				if (!StringUtils.isBlank(picPaths[i])) {
+					bean.addToPictures(picPaths[i], picDescs[i],picTitles[i],picSubtitles[i],picLinkes[i],picRecommendes[i]);
+				}
+			}
+		}
+		// 执行监听器
+		afterSave(bean);
+		return bean;
+	}
 	
 	private Content saveContent(Content bean, ContentExt ext, ContentTxt txt,
 			Integer channelId,Integer typeId, Boolean draft, CmsUser user, boolean forMember){
@@ -425,6 +478,137 @@ public class ContentMngImpl implements ContentMng, ChannelDeleteChecker {
 			for (int i = 0, len = picPaths.length; i < len; i++) {
 				if (!StringUtils.isBlank(picPaths[i])) {
 					bean.addToPictures(picPaths[i], picDescs[i]);
+				}
+			}
+		}
+		// 执行监听器
+		afterChange(bean, mapList);
+		return bean;
+	}
+	
+	public Content update(Content bean, ContentExt ext, ContentTxt txt,
+			String[] tagArr, Integer[] channelIds, Integer[] topicIds,
+			Integer[] viewGroupIds, String[] attachmentPaths,
+			String[] attachmentNames, String[] attachmentFilenames,
+			String[] picPaths, String[] picDescs, 
+			String[] picTitles ,String[] picSubtitles ,String[] picLinkes,Integer[] picRecommendes,
+			Map<String, String> attr,
+			Integer channelId, Integer typeId, Boolean draft, CmsUser user,
+			boolean forMember) {
+		Content entity = findById(bean.getId());
+		// 执行监听器
+		List<Map<String, Object>> mapList = preChange(entity);
+		// 更新主表
+		Updater<Content> updater = new Updater<Content>(bean);
+		bean = dao.updateByUpdater(updater);
+		// 审核更新处理，如果站点设置为审核退回，且当前文章审核级别大于管理员审核级别，则将文章审核级别修改成管理员的审核级别。
+		Byte userStep;
+		if (forMember) {
+			// 会员的审核级别按0处理
+			userStep = 0;
+		} else {
+			CmsSite site = bean.getSite();
+			userStep = user.getCheckStep(site.getId());
+		}
+		AfterCheckEnum after = bean.getChannel().getAfterCheckEnum();
+		if (after == AfterCheckEnum.BACK_UPDATE
+				&& bean.getCheckStep() > userStep) {
+			bean.getContentCheck().setCheckStep(userStep);
+			if (bean.getCheckStep() >= bean.getChannel().getFinalStepExtends()) {
+				bean.setStatus(ContentCheck.CHECKED);
+			} else {
+				bean.setStatus(ContentCheck.CHECKING);
+			}
+		}
+		// 草稿
+		if (draft != null) {
+			if (draft) {
+				bean.setStatus(DRAFT);
+			} else {
+				if (bean.getStatus() == DRAFT) {
+					if (bean.getCheckStep() >= bean.getChannel()
+							.getFinalStepExtends()) {
+						bean.setStatus(ContentCheck.CHECKED);
+					} else {
+						bean.setStatus(ContentCheck.CHECKING);
+					}
+				}
+			}
+		}
+		// 是否有标题图
+		bean.setHasTitleImg(!StringUtils.isBlank(ext.getTitleImg()));
+		// 更新栏目
+		if (channelId != null) {
+			bean.setChannel(channelMng.findById(channelId));
+		}
+		// 更新类型
+		if (typeId != null) {
+			bean.setType(contentTypeMng.findById(typeId));
+		}
+		
+		// 更新城市ID和地区ID
+		if (ext.getCityId() == null) {
+			ext.setCityId(0);
+		}
+		if(ext.getCountryId() == null){
+			ext.setCountryId(0);
+		}
+		if(StringUtils.isBlank(ext.getPublicCode())){
+			ext.setPublicCode("");
+		}
+		// 更新扩展表
+		contentExtMng.update(ext);
+		// 更新文本表
+		contentTxtMng.update(txt, bean);
+		// 更新属性表
+		if (attr != null) {
+			Map<String, String> attrOrig = bean.getAttr();
+			attrOrig.clear();
+			attrOrig.putAll(attr);
+		}
+		// 更新副栏目表
+		Set<Channel> channels = bean.getChannels();
+		channels.clear();
+		if (channelIds != null && channelIds.length > 0) {
+			for (Integer cid : channelIds) {
+				channels.add(channelMng.findById(cid));
+			}
+		}
+		channels.add(bean.getChannel());
+		// 更新专题表
+		Set<CmsTopic> topics = bean.getTopics();
+		topics.clear();
+		if (topicIds != null && topicIds.length > 0) {
+			for (Integer tid : topicIds) {
+				topics.add(cmsTopicMng.findById(tid));
+			}
+		}
+		// 更新浏览会员组
+		Set<CmsGroup> groups = bean.getViewGroups();
+		groups.clear();
+		if (viewGroupIds != null && viewGroupIds.length > 0) {
+			for (Integer gid : viewGroupIds) {
+				groups.add(cmsGroupMng.findById(gid));
+			}
+		}
+		// 更新标签
+		contentTagMng.updateTags(bean.getTags(), tagArr);
+		// 更新附件
+		bean.getAttachments().clear();
+		if (attachmentPaths != null && attachmentPaths.length > 0) {
+			for (int i = 0, len = attachmentPaths.length; i < len; i++) {
+				if (!StringUtils.isBlank(attachmentPaths[i])) {
+					bean.addToAttachmemts(attachmentPaths[i],
+							attachmentNames[i], attachmentFilenames[i]);
+				}
+			}
+		}
+		// 更新图片集
+		bean.getPictures().clear();
+		if (picPaths != null && picPaths.length > 0) {
+			for (int i = 0, len = picPaths.length; i < len; i++) {
+				if (!StringUtils.isBlank(picPaths[i])) {
+					bean.addToPictures(picPaths[i], picDescs[i], picTitles[i], picSubtitles[i],picLinkes[i],picRecommendes[i]);
 				}
 			}
 		}

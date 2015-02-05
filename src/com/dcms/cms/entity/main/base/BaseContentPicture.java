@@ -17,6 +17,10 @@ public abstract class BaseContentPicture  implements Serializable {
 	public static String REF = "ContentPicture";
 	public static String PROP_DESCRIPTION = "description";
 	public static String PROP_IMG_PATH = "imgPath";
+	public static String PROP_TITLE = "title";
+	public static String PROP_SUBTITLE = "subtitle";
+	public static String PROP_LINK = "link";
+	public static String PROP_RECOMMEND = "recommend";
 
 
 	// constructors
@@ -41,6 +45,11 @@ public abstract class BaseContentPicture  implements Serializable {
 	// fields
 	private java.lang.String imgPath;
 	private java.lang.String description;
+	private java.lang.String title;
+	private java.lang.String subtitle;
+	private java.lang.String link;
+	private java.lang.Integer recommend;
+	
 
 
 
@@ -80,8 +89,37 @@ public abstract class BaseContentPicture  implements Serializable {
 
 
 
+	public java.lang.String getTitle() {
+		return title;
+	}
 
+	public void setTitle(java.lang.String title) {
+		this.title = title;
+	}
 
+	public java.lang.String getSubtitle() {
+		return subtitle;
+	}
+
+	public void setSubtitle(java.lang.String subtitle) {
+		this.subtitle = subtitle;
+	}
+
+	public java.lang.String getLink() {
+		return link;
+	}
+
+	public void setLink(java.lang.String link) {
+		this.link = link;
+	}
+
+	public java.lang.Integer getRecommend() {
+		return recommend;
+	}
+
+	public void setRecommend(java.lang.Integer recommend) {
+		this.recommend = recommend;
+	}
 
 	public String toString () {
 		return super.toString();

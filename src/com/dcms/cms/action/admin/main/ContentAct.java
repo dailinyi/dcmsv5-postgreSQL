@@ -403,6 +403,7 @@ public class ContentAct {
 			Integer[] channelIds, Integer[] topicIds, Integer[] viewGroupIds,
 			String[] attachmentPaths, String[] attachmentNames,
 			String[] attachmentFilenames, String[] picPaths, String[] picDescs,
+			String[] picTitles ,String[] picSubtitles ,String[] picLinkes,Integer[] picRecommendes,
 			Integer channelId, Integer typeId, String tagStr, Boolean draft,
 			Integer cid,Integer modelId, HttpServletRequest request, ModelMap model) {
 		WebErrors errors = validateSave(bean, channelId, request);
@@ -421,7 +422,8 @@ public class ContentAct {
 				.getMessage(request, "content.tagStr.split"));
 		bean = manager.save(bean, ext, txt, channelIds, topicIds, viewGroupIds,
 				tagArr, attachmentPaths, attachmentNames, attachmentFilenames,
-				picPaths, picDescs, channelId, typeId, draft, user, false);
+				picPaths, picDescs,picTitles,picSubtitles,picLinkes,picRecommendes,
+				channelId, typeId, draft, user, false);
 		//处理附件
 		fileMng.updateFileByPaths(attachmentPaths,picPaths,ext.getMediaPath(),ext.getTitleImg(),ext.getTypeImg(),ext.getContentImg(),true,bean);
 		log.info("save Content id={}", bean.getId());
@@ -441,6 +443,7 @@ public class ContentAct {
 			Integer[] channelIds, Integer[] topicIds, Integer[] viewGroupIds,
 			String[] attachmentPaths, String[] attachmentNames,
 			String[] attachmentFilenames, String[] picPaths,String[] picDescs,
+			String[] picTitles ,String[] picSubtitles ,String[] picLinkes,Integer[] picRecommendes,
 			Integer channelId, Integer typeId, String tagStr, Boolean draft,
 			Integer cid,String[]oldattachmentPaths,String[] oldpicPaths,
 			String oldTitleImg,String oldContentImg,String oldTypeImg,
@@ -462,7 +465,8 @@ public class ContentAct {
 		Map<String, String> attr = RequestUtils.getRequestMap(request, "attr_");
 		bean = manager.update(bean, ext, txt, tagArr, channelIds, topicIds,
 				viewGroupIds, attachmentPaths, attachmentNames,
-				attachmentFilenames, picPaths, picDescs, attr, channelId,
+				attachmentFilenames, picPaths, picDescs,picTitles,picSubtitles,picLinkes,picRecommendes,
+				attr, channelId,
 				typeId, draft, user, false);
 		//处理之前的附件有效性
 		fileMng.updateFileByPaths(oldattachmentPaths,oldpicPaths,null,oldTitleImg,oldTypeImg,oldContentImg,false,bean);
