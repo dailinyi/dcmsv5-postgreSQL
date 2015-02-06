@@ -3,7 +3,9 @@
 <hibernate-mapping package="com.dcms.core.entity">
 	<class name="UnifiedUser" table="jo_user">
 		<meta attribute="sync-DAO">false</meta>
-		<id name="id" type="java.lang.Integer" column="user_id"><generator class="identity"/></id>
+		<id name="id" type="java.lang.Integer" column="user_id">
+			<generator class="sequence"><param name="sequence">unif_user_id_seq</param></generator>
+		</id>
 		<property name="username" column="username" type="string" not-null="true" length="100"/>
 		<property name="email" column="email" type="string" not-null="false" length="100"/>
 		<property name="password" column="password" type="string" not-null="true" length="32"/>
